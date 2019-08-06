@@ -1,15 +1,15 @@
 #created by liken12
 
-mutable struct SegmentTree
-    ide::Int64          #identity element
+mutable struct SegmentTree{T}
+    ide::T              #identity element
     sz::UInt32          #the size of the base array
     n::UInt32           #2n-1 is the number of the created nodes
     s::UInt8            #2^s = n
-    node::Array{Int64}  #the array of nodes
+    node::Array{T}      #the array of nodes
     op::Function        #operator : you should select an operator
 
     #constructor
-    function SegmentTree(array::Array{Int64},op::Function,ide::Int64)
+    function SegmentTree(array::Array{T},op::Function,ide::T)
         sz::UInt32 = length(array)
         n::UInt32 = 1
         s::UInt8 = 1
@@ -20,7 +20,7 @@ mutable struct SegmentTree
                 break
             end
         end
-        node::Array{Int64} = [ide for i=1:(2*n-1)]        
+        node::Array{T} = [ide for i=1:(2*n-1)]        
 
         for i=1:sz
             node[i+n-1] = array[i]
@@ -34,7 +34,7 @@ mutable struct SegmentTree
 end
 
 #addition
-function add(st::SegmentTree, index::Int, x::Int)
+function add!(st::SegmentTree{T}, index::Int, x::T) where T
     k::UInt32 = index+st.n-1
     st.node[k] += x
     for i=1:1000
@@ -47,11 +47,11 @@ function add(st::SegmentTree, index::Int, x::Int)
 end
 
 #get an element of the base array
-get_one(st::SegmentTree, index::Int) = st.node[index+st.n-1]
+get_one(st::SegmentTree{T}, index::Int) where T = st.node[index+st.n-1]
 
 #get an interval sum
-function get(st::SegmentTree, l::Int, r::Int)
-    res::Int64 = st.ide
+function get(st::SegmentTree{T}, l::Int, r::Int) where T
+    res::T = st.ide
     n::UInt32 = st.n
     if st.sz < r || 1 > l
         println("ERROR: the indice are wrong.")
