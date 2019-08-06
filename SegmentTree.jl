@@ -9,7 +9,7 @@ mutable struct SegmentTree{T}
     op::Function        #operator : you should select an operator
 
     #constructor
-    function SegmentTree(array::Array{T},op::Function,ide::T)
+    function SegmentTree(array::Array{T},op::Function,ide::T) where T
         sz::UInt32 = length(array)
         n::UInt32 = 1
         s::UInt8 = 1
@@ -29,7 +29,7 @@ mutable struct SegmentTree{T}
         for i in n-1:-1:1
             node[i] = op(node[i*2],node[i*2+1])
         end
-        new(ide,sz,n,s,node,op)
+        new{T}(ide,sz,n,s,node,op)
     end
 end
 
