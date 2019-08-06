@@ -130,7 +130,7 @@ println("")
 println("choose max as an operator")
 int64_min = -2^63
 println("\tst = SegmentTree([1,2,3,4,5,6,7,8,9,10],max,int64_min)")
-println("the identity element is -inf, but now we use -2^63 as the identity operator because it is the minimum number of Int64")
+println("the identity element is -inf, but now we use -2^63 as the identity element because it is the minimum number of Int64")
 st_max = SegmentTree([1,2,3,4,5,6,7,8,9,10],max,int64_min)
 println("max from index 3 to index 7")
 println(get(st_max,3,7))
