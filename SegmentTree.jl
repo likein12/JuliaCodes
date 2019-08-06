@@ -38,7 +38,7 @@ function add(st::SegmentTree, index::Int, x::Int)
     k::UInt32 = index+st.n-1
     st.node[k] += x
     for i=1:1000
-        k = round(UInt32, k/2)
+        k = floor(UInt32, k/2)
         st.node[k] = st.op(st.node[2*k], st.node[2*k+1])
         if k <= 1
             break
@@ -78,11 +78,11 @@ function get(st::SegmentTree, l::Int, r::Int)
             left = (b+1)*n
             break
         end
-        n = round(UInt32,n/2)
+        n = floor(UInt32,n/2)
         cnt += 1
     end
     #left
-    n1::UInt32 = round(UInt32,n/2)
+    n1::UInt32 = floor(UInt32,n/2)
     for j=cnt+1:st.s
         count::UInt32 = 2^(j-1)
         a = floor(Int64,left/n1)
@@ -94,7 +94,7 @@ function get(st::SegmentTree, l::Int, r::Int)
         n1 = floor(UInt32,n1/2)
     end
     #right
-    n1 = round(UInt32,n/2)
+    n1 = floor(UInt32,n/2)
     for j=cnt+1:st.s
         count::UInt32 = 2^(j-1)
         a = floor(Int64,r/n1)
@@ -124,3 +124,18 @@ println("Sum from index 1 to index 3")
 println(get(st,1,3))
 println("Sum from index 3 to index 7")
 println(get(st,3,7))
+
+println("")
+
+println("choose max as an operator")
+println("\tst = SegmentTree([1,2,3,4,5,6,7,8,9,10],max,0)")
+st_max = SegmentTree([1,2,3,4,5,6,7,8,9,10],max,0)
+println("Max from index 3 to index 7")
+println(get(st_max,3,7))
+println("Add 5 to index 4")
+add(st_max,4,5)
+println("Now the base array is [1,2,3,9,5,6,7,8,9,10]")
+println("index 4")
+println(get_one(st_max,4))
+println("Max from index 3 to index 7")
+println(get(st_max,3,7))
