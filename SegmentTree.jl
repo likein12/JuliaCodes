@@ -6,10 +6,10 @@ mutable struct SegmentTree
     n::UInt32           #2n-1 is the number of the created nodes
     s::UInt8            #2^s = n
     node::Array{Int64}  #the array of nodes
-    op                  #operator : you should select an operator
+    op::Function        #operator : you should select an operator
 
     #constructor
-    function SegmentTree(array::Array{Int64},op,ide::Int64)
+    function SegmentTree(array::Array{Int64},op::Function,ide::Int64)
         sz::UInt32 = length(array)
         n::UInt32 = 1
         s::UInt8 = 1
