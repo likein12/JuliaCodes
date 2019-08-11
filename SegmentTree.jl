@@ -1,24 +1,21 @@
 #created by liken12
 
 mutable struct SegmentTree{T}
+    op::Function        #operator : you should select an operator
     ide::T              #identity element
+    node::Array{T}      #the array of nodes
     sz::UInt32          #the size of the base array
     n::UInt32           #2n-1 is the number of the created nodes
     s::UInt8            #2^s = n
-    node::Array{T}      #the array of nodes
-    op::Function        #operator : you should select an operator
 
     #constructor
     function SegmentTree{T}(array::Array{T},op::Function,ide::T) where T
         sz::UInt32 = length(array)
         n::UInt32 = 1
         s::UInt8 = 1
-        for i=1:1000
+        while n < sz 
             n *= 2
             s += 1
-            if n >= sz
-                break
-            end
         end
         node::Array{T} = [ide for i=1:(2*n-1)]        
 
@@ -29,12 +26,12 @@ mutable struct SegmentTree{T}
         for i in n-1:-1:1
             node[i] = op(node[i*2],node[i*2+1])
         end
-        new{T}(ide,sz,n,s,node,op)
+        new{T}(op,ide,node,sz,n,s)
     end
 end
 
 #addition
-function add!(st::SegmentTree{T}, index::Int, x::T) where T
+function update!(st::SegmentTree{T}, index::Int, x::T) where T
     k::UInt32 = index+st.n-1
     st.node[k] += x
     for i=1:1000
