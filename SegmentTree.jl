@@ -34,12 +34,9 @@ end
 function update!(st::SegmentTree{T}, index::Int, x::T) where T
     k::UInt32 = index+st.n-1
     st.node[k] += x
-    for i=1:1000
+    while k > 2
         k = floor(UInt32, k/2)
         st.node[k] = st.op(st.node[2*k], st.node[2*k+1])
-        if k <= 1
-            break
-        end
     end
 end
 
